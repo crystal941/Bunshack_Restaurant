@@ -3,9 +3,10 @@
     public class Order
     {
         public Guid Id { get; set; }
-        public string? FoodName { get; set; }
-        public int Quantity { get; set; }
-        public int Price { get; set; }
-        public string? MenuId { get; set; }
+        public string? CustomerName { get; set; }
+        public DateTime OrderDate { get; set; }
+        public ICollection<OrderMenu> OrderMenus { get; set; } = new List<OrderMenu>();
+        public string? UserId { get; set; }
+        public User? User { get; set; }
     }
 }
