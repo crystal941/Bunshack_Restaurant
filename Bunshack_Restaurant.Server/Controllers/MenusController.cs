@@ -5,7 +5,7 @@ using Bunshack_Restaurant.Server.Repositories.Abstract;
 
 namespace Bunshack_Restaurant.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/MenusController")]
     [ApiController]
     public class MenusController : ControllerBase
     {
@@ -15,14 +15,12 @@ namespace Bunshack_Restaurant.Server.Controllers
             _menuRepository = menuRepository;
         }
 
-        // GET: api/Menus
         [HttpGet]
         public ActionResult<List<Menu>> GetAllMenus()
         {
             return Ok(_menuRepository.GetAllMenus());
         }
 
-        // GET: api/Menus/5
         [HttpGet("{id}")]
         public ActionResult<Menu> GetMenuById(Guid id)
         {
@@ -37,7 +35,6 @@ namespace Bunshack_Restaurant.Server.Controllers
             }
         }
 
-        // PUT: api/Menus/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public ActionResult<Menu> UpdateMenu(Guid id, Menu menu)
@@ -53,7 +50,6 @@ namespace Bunshack_Restaurant.Server.Controllers
             }
         }
 
-        // POST: api/Menus
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public ActionResult<Menu> AddMenu(Menu menu)
@@ -61,7 +57,6 @@ namespace Bunshack_Restaurant.Server.Controllers
             return Ok(_menuRepository.AddMenu(menu));
         }
 
-        // DELETE: api/Menus/5
         [HttpDelete("{id}")]
         public ActionResult<Menu> DeleteMenu(Guid id)
         {

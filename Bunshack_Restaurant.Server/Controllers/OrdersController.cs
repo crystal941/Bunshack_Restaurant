@@ -2,78 +2,102 @@
 using Bunshack_Restaurant.Server.Repositories.Abstract;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
 
 namespace Bunshack_Restaurant.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/OrdersController")]
     [ApiController]
     public class OrdersController : ControllerBase
     {
         private readonly IOrderRepository _orderRepository;
+
         public OrdersController(IOrderRepository orderRepository)
         {
             _orderRepository = orderRepository;
         }
 
-        // GET: api/Orders
         [HttpGet]
         public ActionResult<List<Order>> GetAllOrders()
         {
-            return Ok(_orderRepository.GetAllOrders());
+            try
+            {
+                var orders = _orderRepository.GetAllOrders();
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Failed to retrieve orders.", error = ex.Message });
+            }
         }
 
-        // GET: api/Orders/5
         [HttpGet("{id}")]
         public ActionResult<Order> GetOrderById(Guid id)
         {
             try
             {
                 var order = _orderRepository.GetOrderById(id);
+                if (order == null)
+                {
+                    return NotFound(new { message = $"Order with ID {id} not found." });
+                }
                 return Ok(order);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Failed to retrieve order.", error = ex.Message });
             }
         }
 
-        // PUT: api/Orders/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         public ActionResult<Order> ModifyOrder(Guid id, Order order)
         {
             try
             {
                 order.Id = id;
-                var orderUpdate = _orderRepository.ModifyOrder(order);
-                return Ok(orderUpdate);
+                var updatedOrder = _orderRepository.ModifyOrder(order);
+                if (updatedOrder == null)
+                {
+                    return NotFound(new { message = $"Order with ID {id} not found." });
+                }
+                return Ok(updatedOrder);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Failed to update order.", error = ex.Message });
             }
         }
 
-        // POST: api/Menus
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         public ActionResult<Order> PlaceOrder(Order order)
         {
-            return Ok(_orderRepository.PlaceOrder(order));
+            try
+            {
+                var newOrder = _orderRepository.PlaceOrder(order);
+                return CreatedAtAction(nameof(GetOrderById), new { id = newOrder.Id }, newOrder);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Failed to place order.", error = ex.Message });
+            }
         }
 
-        // DELETE: api/Menus/5
         [HttpDelete("{id}")]
         public ActionResult<Order> CancelOrder(Guid id)
         {
             try
             {
                 var order = _orderRepository.CancelOrder(id);
+                if (order == null)
+                {
+                    return NotFound(new { message = $"Order with ID {id} not found." });
+                }
                 return Ok(order);
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Failed to cancel order.", error = ex.Message });
             }
         }
     }
