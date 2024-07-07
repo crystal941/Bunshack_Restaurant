@@ -1,9 +1,9 @@
-import { fileURLToPath, URL } from 'node:url';
+//import { fileURLToPath, URL } from 'node:url';
 
 import { defineConfig } from 'vite';
-import plugin from '@vitejs/plugin-react';
+import react from '@vitejs/plugin-react';
 import fs from 'fs';
-import path from 'path';
+import * as path from 'path';
 import child_process from 'child_process';
 import { env } from 'process';
 
@@ -34,18 +34,41 @@ const target = env.ASPNETCORE_HTTPS_PORT ? `https://localhost:${env.ASPNETCORE_H
     env.ASPNETCORE_URLS ? env.ASPNETCORE_URLS.split(';')[0] : 'https://localhost:7062';
 
 // https://vitejs.dev/config/
+//export default defineConfig({
+//    plugins: [plugin()],
+//    resolve: {
+//        alias: {
+//            '@': fileURLToPath(new URL('./src', import.meta.url))
+//        }
+//    },
+//    server: {
+//        proxy: {
+//            '^/weatherforecast': {
+//                target,
+//                secure: false
+//            }
+//        },
+//        port: 5173,
+//        https: {
+//            key: fs.readFileSync(keyFilePath),
+//            cert: fs.readFileSync(certFilePath),
+//        }
+//    }
+//})
+
 export default defineConfig({
-    plugins: [plugin()],
+    plugins: [react()],
     resolve: {
-        alias: {
-            '@': fileURLToPath(new URL('./src', import.meta.url))
-        }
+        alias: [
+            { find: '@', replacement: path.resolve(__dirname, './src') }
+        ]
     },
     server: {
         proxy: {
-            '^/weatherforecast': {
+            '^/api': {
                 target,
-                secure: false
+                secure: false,
+                changeOrigin: true
             }
         },
         port: 5173,
@@ -54,4 +77,4 @@ export default defineConfig({
             cert: fs.readFileSync(certFilePath),
         }
     }
-})
+});
