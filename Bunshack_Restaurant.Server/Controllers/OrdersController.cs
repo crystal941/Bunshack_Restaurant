@@ -1,9 +1,8 @@
 ﻿using Bunshack_Restaurant.Server.Models;
 using Bunshack_Restaurant.Server.Repositories.Abstract;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace Bunshack_Restaurant.Server.Controllers
 {
@@ -18,12 +17,22 @@ namespace Bunshack_Restaurant.Server.Controllers
             _orderRepository = orderRepository;
         }
 
-        [HttpGet]
+        [HttpGet("admin"), Authorize]
         public ActionResult<List<Order>> GetAllOrders()
         {
             try
             {
-                var orders = _orderRepository.GetAllOrders();
+                var isAdmin = User.Claims.FirstOrDefault(c => c.Type == "isAdmin")?.Value == "true";
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var orders = new List<Order>();
+                if (userId != null && !isAdmin)
+                {
+
+                    orders = _orderRepository.GetOrdersByUserId(userId).ToList();
+                    return Ok(orders);
+                }
+
+                orders = _orderRepository.GetAllOrders().ToList();
                 return Ok(orders);
             }
             catch (Exception ex)
@@ -32,7 +41,27 @@ namespace Bunshack_Restaurant.Server.Controllers
             }
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("user"), Authorize]
+        public ActionResult<List<Order>> GetUserOrders()
+        {
+            try
+            {
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                if (userId == null)
+                {
+                    return Unauthorized(new { message = "User is not logged in." });
+                }
+
+                var orders = _orderRepository.GetOrdersByUserId(userId).ToList();
+                return Ok(orders);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Failed to retrieve orders.", error = ex.Message });
+            }
+        }
+
+[HttpGet("{id}"), Authorize]
         public ActionResult<Order> GetOrderById(Guid id)
         {
             try
@@ -50,7 +79,7 @@ namespace Bunshack_Restaurant.Server.Controllers
             }
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}"), Authorize]
         public ActionResult<Order> ModifyOrder(Guid id, Order order)
         {
             try
@@ -69,7 +98,7 @@ namespace Bunshack_Restaurant.Server.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost, Authorize]
         public ActionResult<Order> PlaceOrder(Order order)
         {
             try
@@ -83,7 +112,7 @@ namespace Bunshack_Restaurant.Server.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}"), Authorize]
         public ActionResult<Order> CancelOrder(Guid id)
         {
             try
