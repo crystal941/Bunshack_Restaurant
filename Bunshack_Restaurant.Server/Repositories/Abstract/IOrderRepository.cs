@@ -9,5 +9,6 @@ namespace Bunshack_Restaurant.Server.Repositories.Abstract
         Order GetOrderById(Guid orderId);
         Order ModifyOrder(Order order);
         Order CancelOrder(Guid orderId);
+        List<Order> GetOrdersByUserId(string userId);
     }
 }

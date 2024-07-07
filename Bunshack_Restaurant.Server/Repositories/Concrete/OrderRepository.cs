@@ -116,5 +116,23 @@ namespace Bunshack_Restaurant.Server.Repositories.Concrete
                 throw new Exception($"An error occurred: {ex.Message}");
             }
         }
+
+        public List<Order> GetOrdersByUserId(string userId)
+        {
+            try
+            {
+                var orders = _context.Orders
+                                     .Where(o => o.UserId == userId)
+                                     .Include(o => o.OrderMenus)
+                                     .ThenInclude(om => om.Menu)
+                                     .ToList();
+                return orders;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred: {ex.Message}");
+            }
+        }
+
     }
 }
