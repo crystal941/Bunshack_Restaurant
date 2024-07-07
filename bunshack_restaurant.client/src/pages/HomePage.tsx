@@ -12,8 +12,10 @@ const HomePage: React.FC = () => {
           <h1>Welcome to BunShack Breakfast</h1>
           <p>Discover our story, explore our menu, and order now!</p>
           <Link to="/menu">
-            <button>VIEW MENU</button>
-            <br />
+                      <button>VIEW MENU</button>
+            </Link>
+                  <br />
+            <Link to="/orders">
             <button>ORDER NOW</button>
           </Link>
         </div>
