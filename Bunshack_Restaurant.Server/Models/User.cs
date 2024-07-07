@@ -15,6 +15,7 @@ namespace Bunshack_Restaurant.Server.Models
         [Column(TypeName = "datetime")]
         public DateTime LastLogin { get; set; } = DateTime.Now;
         public bool IsAdmin { get; set; } = false;
+        public string Role { get; set; } = "Customer";
         public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }
