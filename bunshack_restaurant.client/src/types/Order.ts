@@ -8,6 +8,7 @@ export interface Order {
     orderMenus: OrderMenu[];
     userId: string | null;
     user: User | null;
+    orderNumber: number;
 }
 
 export interface OrderMenu {
