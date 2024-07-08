@@ -1,4 +1,5 @@
-﻿using Bunshack_Restaurant.Server.Models;
+﻿using Bunshack_Restaurant.Server.Data.Context;
+using Bunshack_Restaurant.Server.Models;
 using Bunshack_Restaurant.Server.Repositories.Abstract;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,12 @@ namespace Bunshack_Restaurant.Server.Controllers
     public class OrdersController : ControllerBase
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly ApplicationDbContext _context;
 
-        public OrdersController(IOrderRepository orderRepository)
+        public OrdersController(IOrderRepository orderRepository, ApplicationDbContext context)
         {
             _orderRepository = orderRepository;
+            _context = context;
         }
 
         [HttpGet("admin"), Authorize]
@@ -22,18 +25,19 @@ namespace Bunshack_Restaurant.Server.Controllers
         {
             try
             {
-                var isAdmin = User.Claims.FirstOrDefault(c => c.Type == "isAdmin")?.Value == "true";
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
-                var orders = new List<Order>();
-                if (userId != null && !isAdmin)
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Assuming you have the user's ID
+                var user = _context.Users.FirstOrDefault(u => u.Id == userId);
+                if (user != null)
                 {
-
-                    orders = _orderRepository.GetOrdersByUserId(userId).ToList();
+                    bool isAdmin = user.IsAdmin;
+                    if (!isAdmin)
+                    {
+                        return Unauthorized(new { message = "You have no permission to view this page." });
+                    }
+                    var orders = _orderRepository.GetAllOrders().ToList();
                     return Ok(orders);
                 }
-
-                orders = _orderRepository.GetAllOrders().ToList();
-                return Ok(orders);
+                return Unauthorized(new { message = "User is not logged in." });
             }
             catch (Exception ex)
             {
@@ -51,7 +55,6 @@ namespace Bunshack_Restaurant.Server.Controllers
                 {
                     return Unauthorized(new { message = "User is not logged in." });
                 }
-
                 var orders = _orderRepository.GetOrdersByUserId(userId).ToList();
                 return Ok(orders);
             }
@@ -61,7 +64,7 @@ namespace Bunshack_Restaurant.Server.Controllers
             }
         }
 
-[HttpGet("{id}"), Authorize]
+        [HttpGet("{id}"), Authorize]
         public ActionResult<Order> GetOrderById(Guid id)
         {
             try
