@@ -3,19 +3,13 @@ import {
     Box,
     Container,
     Typography,
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    Paper,
     CircularProgress,
 } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
 import { Order } from "../types/Order";
 import { OrderResponse } from '../types/OrderResponse';
 import Layout from '../components/Layout';
+import OrderTable from '../components/OrderTable';
 
 const OrdersPage: React.FC = () => {
     const { loggedIn, isAdmin } = useAuth();
@@ -47,7 +41,7 @@ const OrdersPage: React.FC = () => {
                             menu: orderMenu.menu,
                             quantity: orderMenu.quantity
                         })),
-                        orderNumber: index + 1 // Calculate order number (index + 1)
+                        orderNumber: index + 1 // Calculate alias order number (index + 1)
                     }));
                     setOrders(orders);
                 } else {
@@ -69,10 +63,11 @@ const OrdersPage: React.FC = () => {
     }, [loggedIn, isAdmin]);
 
     if (!loggedIn) {
-        return
-        (<Typography variant="body1" align="center" color="error">
-            <div>Please log in to access this page.</div>
-        </Typography>);
+        return (
+            <Typography variant="body1" align="center" color="error">
+                Please log in to access this page.
+            </Typography>
+        );
     }
 
     if (loading) {
@@ -107,54 +102,7 @@ const OrdersPage: React.FC = () => {
                                 },
                             }}
                         >
-                            <TableContainer component={Paper}>
-                                <Table>
-                                    <TableHead>
-                                        <TableRow>
-                                            <TableCell>Order ID</TableCell>
-                                            <TableCell>Customer Name</TableCell>
-                                            <TableCell>Order Date</TableCell>
-                                            <TableCell>Order Details</TableCell>
-                                        </TableRow>
-                                    </TableHead>
-                                    <TableBody>
-                                        {orders.length === 0 ? (
-                                            <TableRow>
-                                                <TableCell colSpan={4} align="center">
-                                                    No orders available
-                                                </TableCell>
-                                            </TableRow>
-                                        ) : (
-                                            orders.map(order => (
-                                                <TableRow key={order.id}>
-                                                    <TableCell>{order.orderNumber}</TableCell> {/* Display orderNumber instead of order.id */}
-                                                    <TableCell>{order.customerName}</TableCell>
-                                                    <TableCell>{order.orderDate.toString()}</TableCell>
-                                                    <TableCell>
-                                                        <Table>
-                                                            <TableHead>
-                                                                <TableRow>
-                                                                    <TableCell>Food Name</TableCell>
-                                                                    <TableCell>Quantity</TableCell>
-                                                                </TableRow>
-                                                            </TableHead>
-                                                            <TableBody>
-                                                                {order.orderMenus.map(orderMenu => (
-                                                                    <TableRow key={orderMenu.menuId}>
-                                                                        <TableCell>{orderMenu.menu?.foodName}</TableCell>
-                                                                        <TableCell>{orderMenu.quantity}</TableCell>
-                                                                    </TableRow>
-                                                                ))}
-                                                            </TableBody>
-                                                        </Table>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))
-                                        )}
-                                    </TableBody>
-
-                                </Table>
-                            </TableContainer>
+                            <OrderTable orders={orders} />
                         </Box>
                     </Box>
                 </div>
