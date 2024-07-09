@@ -2,7 +2,7 @@
   height: 90vh;
   display: flex;
   justify-content: center;
-  align-items: left;
+  align-items: stretch;
   flex-direction: column;
   background-position: center;
   background-repeat: no-repeat;
