@@ -4,6 +4,7 @@ import {
     CircularProgress,
     Container,
     Button,
+    IconButton,
     Table,
     TableBody,
     TableCell,
@@ -17,6 +18,8 @@ import {
 import { Menu } from '../types/Menu';
 import { Link } from 'react-router-dom';
 import Layout from '../components/Layout'
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const AdminPage: React.FC = () => {
     const { loggedIn, isAdmin } = useAuth();
@@ -27,7 +30,7 @@ const AdminPage: React.FC = () => {
     useEffect(() => {
         const fetchMenus = async () => {
             try {
-                const response = await fetch("/api/MenusController/admin", {
+                const response = await fetch("/api/MenusController", {
                     method: "GET",
                     credentials: "include"
                 });
@@ -56,8 +59,7 @@ const AdminPage: React.FC = () => {
     const handleDelete = async (id: string) => {
         if (window.confirm("Are you sure you want to delete this menu?")) {
             try {
-                const response = await fetch("/api/MenusController/${id}",
-                    {
+                const response = await fetch(`/api/MenusController/${id}`, {
                     method: "DELETE",
                     credentials: "include"
                 });
@@ -124,23 +126,56 @@ const AdminPage: React.FC = () => {
                                         <TableRow key={menu.id}>
                                             <TableCell>{index + 1}</TableCell>
                                             <TableCell>{menu.foodName}</TableCell>
-                                            <TableCell align="center">{menu.price}</TableCell>
-                                            <TableCell align="right">
-                                                <Button variant="contained" color="primary" component={Link} to={`/editMenu/${menu.id}`} >Edit</Button>
-                                            <Button variant="contained" color="secondary" onClick={() => handleDelete(menu.id)} style={{ marginLeft: '10px' }}>Delete</Button>
-                                        </TableCell>
+                                            <TableCell align="right">{menu.price}</TableCell>
+                                            <TableCell align="center">
+                                                {/* Conditionally render IconButton on mobile */}
+                                                <IconButton
+                                                    component={Link}
+                                                    to={`/editMenu/${menu.id}`}
+                                                    sx={{ display: { xs: 'inline-flex', sm: 'none' } }}
+                                                >
+                                                    <EditIcon />
+                                                </IconButton>
+                                                {/* Conditionally render Button on desktop */}
+                                                <Button
+                                                    variant="contained"
+                                                    color="primary"
+                                                    component={Link}
+                                                    to={`/editMenu/${menu.id}`}
+                                                    sx={{ display: { xs: 'none', sm: 'inline-flex' }, marginRight: 1 }}
+                                                >
+                                                    Edit
+                                                </Button>
+                                                {/* Conditionally render IconButton on mobile */}
+                                                <IconButton
+                                                    onClick={() => handleDelete(menu.id)}
+                                                    style={{ marginLeft: '10px' }}
+                                                    sx={{ display: { xs: 'inline-flex', sm: 'none' } }}
+                                                >
+                                                    <DeleteIcon />
+                                                </IconButton>
+                                                {/* Conditionally render Button on desktop */}
+                                                <Button
+                                                    variant="contained"
+                                                    color="secondary"
+                                                    onClick={() => handleDelete(menu.id)}
+                                                    style={{ marginLeft: '10px' }}
+                                                    sx={{ display: { xs: 'none', sm: 'inline-flex' } }}
+                                                >
+                                                    Delete
+                                                </Button>
+                                            </TableCell>
                                         </TableRow>
-                            ))
+                                    ))
                                 )}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
-                <Button variant="contained" color="success" sx={{ mt: 3 }} ><Link to="/addMenu" style={{ color: 'white', textDecoration: 'none' }}>Add Menu</Link></Button>
-            </Box>
-        </div>
-        </Layout >
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                    <Button variant="contained" color="success" sx={{ mt: 3 }} ><Link to="/addMenu" style={{ color: 'white', textDecoration: 'none' }}>Add Menu</Link></Button>
+                </Box>
+            </div>
+        </Layout>
     );
-
 };
 
 export default AdminPage;
