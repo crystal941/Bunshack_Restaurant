@@ -134,5 +134,28 @@ namespace Bunshack_Restaurant.Server.Repositories.Concrete
             }
         }
 
+        public List<Menu> GetMenusByOrderId(Guid orderId)
+        {
+            try
+            {
+                var menus = _context.OrderMenus
+                    .Include(om => om.Menu)
+                    .Where(om => om.OrderId == orderId)
+                    .Select(om => om.Menu)
+                    .ToList();
+
+                if (menus == null || !menus.Any())
+                {
+                    throw new Exception("No menus found for the specified order.");
+                }
+
+                return menus;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"An error occurred: {ex.Message}");
+            }
+        }
+
     }
 }
