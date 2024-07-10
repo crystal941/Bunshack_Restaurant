@@ -21,10 +21,6 @@ code {
   padding: 4rem;
 }
 
-.content :hover {
-  color: goldenrod;
-}
-
 .content h4 {
   font-weight: bold;
   margin: 3rem 0;
