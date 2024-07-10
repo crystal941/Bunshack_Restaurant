@@ -171,7 +171,8 @@ const AdminPage: React.FC = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <Button variant="contained" color="success" sx={{ mt: 3 }} ><Link to="/addMenu" style={{ color: 'white', textDecoration: 'none' }}>Add Menu</Link></Button>
+                    <Button variant="contained" color="success" sx={{ mt: 3 }} component={Link}
+                        to={"/addMenu"} >Add Menu</Button>
                 </Box>
             </div>
         </Layout>

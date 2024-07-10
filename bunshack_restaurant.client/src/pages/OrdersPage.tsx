@@ -102,13 +102,13 @@ const OrdersPage: React.FC = () => {
                                 },
                             }}
                         >
-                            <OrderTable orders={orders} />
+                                <OrderTable orders={orders} />
                         </Box>
                     </Box>
                 </div>
             </div>
             {errorMessage && (
-                <Typography variant="body1" align="center" color="error">
+                <Typography variant="h4" align="center" color="error">
                     {errorMessage}
                 </Typography>
             )}
