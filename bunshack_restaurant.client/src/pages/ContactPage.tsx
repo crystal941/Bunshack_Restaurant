@@ -47,7 +47,7 @@ const contact: React.FC = () => {
                                         <TableRow>
                                             <TableCell
                                                 sx={{
-                                                    bgcolor: "darkgoldenrod",
+                                                    bgcolor: "goldenrod",
                                                     color: "white",
                                                 }}
                                                 align="center"
