@@ -209,7 +209,7 @@ const Navbar: React.FC = () => {
           }}
         >
           <MenuItem onClick={handleClose}>
-            <StyledLink to="/new-order">New Order</StyledLink>
+            <StyledLink to="/neworder">New Order</StyledLink>
           </MenuItem>
           <MenuItem onClick={handleClose}>
             <StyledLink to="/orders">My Orders</StyledLink>
