@@ -4,6 +4,7 @@ using Bunshack_Restaurant.Server.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Bunshack_Restaurant.Server.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240711020611_UpdateOrderTable")]
+    partial class UpdateOrderTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,6 +79,8 @@ namespace Bunshack_Restaurant.Server.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("OrderId", "MenuId");
+
+                    b.HasIndex("MenuId");
 
                     b.ToTable("OrderMenus");
                 });
@@ -301,7 +306,7 @@ namespace Bunshack_Restaurant.Server.Data.Migrations
             modelBuilder.Entity("Bunshack_Restaurant.Server.Models.Order", b =>
                 {
                     b.HasOne("Bunshack_Restaurant.Server.Models.User", "User")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("UserId");
 
                     b.Navigation("User");
@@ -309,11 +314,21 @@ namespace Bunshack_Restaurant.Server.Data.Migrations
 
             modelBuilder.Entity("Bunshack_Restaurant.Server.Models.OrderMenu", b =>
                 {
-                    b.HasOne("Bunshack_Restaurant.Server.Models.Order", null)
+                    b.HasOne("Bunshack_Restaurant.Server.Models.Menu", "Menu")
+                        .WithMany("OrderMenus")
+                        .HasForeignKey("MenuId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Bunshack_Restaurant.Server.Models.Order", "Order")
                         .WithMany("OrderMenus")
                         .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Menu");
+
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -367,9 +382,19 @@ namespace Bunshack_Restaurant.Server.Data.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Bunshack_Restaurant.Server.Models.Menu", b =>
+                {
+                    b.Navigation("OrderMenus");
+                });
+
             modelBuilder.Entity("Bunshack_Restaurant.Server.Models.Order", b =>
                 {
                     b.Navigation("OrderMenus");
+                });
+
+            modelBuilder.Entity("Bunshack_Restaurant.Server.Models.User", b =>
+                {
+                    b.Navigation("Orders");
                 });
 #pragma warning restore 612, 618
         }
