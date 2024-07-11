@@ -8,13 +8,13 @@ export interface Order {
     orderMenus: OrderMenu[];
     userId: string | null;
     user: User | null;
-    orderNumber: number;
+    totalPrice: number;
 }
 
 export interface OrderMenu {
     orderId: string;
-    order: Order | null;
+    //order: Order | null;
     menuId: string; 
-    menu: Menu | null;
+    //menu: Menu | null;
     quantity: number;
 }

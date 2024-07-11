@@ -8,4 +8,5 @@ export interface OrderResponse {
     userId: string | null;
     user: User | null;
     orderMenus: OrderMenu[];
+    totalPrice: number;
 }
