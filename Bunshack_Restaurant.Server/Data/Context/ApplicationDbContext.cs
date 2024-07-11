@@ -20,21 +20,21 @@ namespace Bunshack_Restaurant.Server.Data.Context
             modelBuilder.Entity<OrderMenu>()
                 .HasKey(om => new { om.OrderId, om.MenuId });
 
-            modelBuilder.Entity<OrderMenu>()
-                .HasOne(om => om.Order)
-                .WithMany(o => o.OrderMenus)
-                .HasForeignKey(om => om.OrderId);
+            //modelBuilder.Entity<OrderMenu>()
+                //.HasOne(om => om.Order)
+                //.WithMany(o => o.OrderMenus)
+                //.HasForeignKey(om => om.OrderId);
 
-            modelBuilder.Entity<OrderMenu>()
-                .HasOne(om => om.Menu)
-                .WithMany(m => m.OrderMenus)
-                .HasForeignKey(om => om.MenuId);
+            //modelBuilder.Entity<OrderMenu>()
+            //    .HasOne(om => om.Menu)
+            //    .WithMany(m => m.OrderMenus)
+            //    .HasForeignKey(om => om.MenuId);
 
             // Configure the one-to-many relationship between Order and User
-            modelBuilder.Entity<Order>()
-                .HasOne(o => o.User)
-                .WithMany(u => u.Orders)
-                .HasForeignKey(o => o.UserId);
+            //modelBuilder.Entity<Order>()
+            //    .HasOne(o => o.User);
+               // .WithMany(u => u.Orders)
+                //.HasForeignKey(o => o.UserId);
         }
     }
 }
