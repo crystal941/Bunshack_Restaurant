@@ -10,8 +10,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { Link } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 const AddMenuPage: React.FC = () => {
+    const { isAdmin } = useAuth();
     const navigate = useNavigate();
     const [foodName, setFoodName] = useState("");
     const [price, setPrice] = useState("");
@@ -35,8 +37,6 @@ const AddMenuPage: React.FC = () => {
                 },
             });
 
-            //const data = await response.json();
-
             if (response.ok) {
                 navigate("/admin"); // Redirect to all menus list page
             }
@@ -45,15 +45,17 @@ const AddMenuPage: React.FC = () => {
         }
     };
 
+    if (!isAdmin) {
+        return (<Typography variant="h4" align="center" color="error"><div>You do not have permission to view this page.</div></Typography>);
+    }
+
     return (
         <Layout>
             <div className="content">
                 <Container sx={{ mb: 15, "@media(max-width: 600px)": { mb: 10 } }}>
-
                     <Typography variant="h4" style={{ color: 'black' }} >
                         Add New Menu Item
                     </Typography>
-
                     <Box
                         sx={{
                             maxWidth: "400px",
