@@ -1,5 +1,4 @@
 import { User } from './User';
-import { Menu } from './Menu';
 
 export interface Order {
     id: string;
@@ -13,8 +12,6 @@ export interface Order {
 
 export interface OrderMenu {
     orderId: string;
-    //order: Order | null;
     menuId: string; 
-    //menu: Menu | null;
     quantity: number;
 }
