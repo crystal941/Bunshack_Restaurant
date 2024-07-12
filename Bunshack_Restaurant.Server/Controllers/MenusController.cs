@@ -26,15 +26,10 @@ namespace Bunshack_Restaurant.Server.Controllers
         {
             try
             {
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Assuming you have the user's ID
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
                 var user = _context.Users.FirstOrDefault(u => u.Id == userId);
                 if (user != null)
                 {
-                    bool isAdmin = user.IsAdmin;
-                    if (!isAdmin)
-                    {
-                        return Unauthorized(new { message = "You have no permission to view this page." });
-                    }
                     var menus = _menuRepository.GetAllMenus().ToList();
                     return Ok(menus);
                 }
@@ -52,6 +47,10 @@ namespace Bunshack_Restaurant.Server.Controllers
             try
             {
                 var menu = _menuRepository.GetMenuById(id);
+                if (menu == null)
+                {
+                    return NotFound(new { message = $"Menu item with ID {id} not found." });
+                }
                 return Ok(menu);
             }
             catch (Exception ex)
