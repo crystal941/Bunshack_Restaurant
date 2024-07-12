@@ -16,27 +16,6 @@ namespace Bunshack_Restaurant.Server.Repositories.Concrete
         {
             try
             {
-                var existingOrder = _context.Orders.FirstOrDefault(o => o.Id == order.Id);
-                if (existingOrder != null)
-                {
-                    throw new Exception("Order already exists!");
-                }
-
-                var user = _context.Users.FirstOrDefault(u => u.Id == order.UserId);
-                if (user == null)
-                {
-                    throw new Exception("User does not exist!");
-                }
-
-                foreach (var orderMenu in order.OrderMenus)
-                {
-                    var menu = _context.Menus.FirstOrDefault(m => m.Id == orderMenu.MenuId);
-                    if (menu == null)
-                    {
-                        throw new Exception($"Menu item with ID {orderMenu.MenuId} does not exist!");
-                    }
-                    orderMenu.Order = order;
-                }
                 _context.Orders.Add(order);
                 _context.SaveChanges();
                 return order;
@@ -48,7 +27,7 @@ namespace Bunshack_Restaurant.Server.Repositories.Concrete
         }
         public List<Order> GetAllOrders()
         {
-            var orders = _context.Orders.Include(o => o.OrderMenus).ToList();
+            var orders = _context.Orders.OrderByDescending(o => o.OrderDate).ToList();
             return orders;
         }
 
@@ -122,9 +101,7 @@ namespace Bunshack_Restaurant.Server.Repositories.Concrete
             try
             {
                 var orders = _context.Orders
-                                     .Where(o => o.UserId == userId)
-                                     .Include(o => o.OrderMenus)
-                                     .ThenInclude(om => om.Menu)
+                                     .Where(o => o.UserId == userId)                              
                                      .ToList();
                 return orders;
             }
@@ -134,22 +111,21 @@ namespace Bunshack_Restaurant.Server.Repositories.Concrete
             }
         }
 
-        public List<Menu> GetMenusByOrderId(Guid orderId)
+        public List<OrderMenu> GetOrderMenusByOrderId(Guid orderId)
         {
             try
             {
-                var menus = _context.OrderMenus
-                    .Include(om => om.Menu)
-                    .Where(om => om.OrderId == orderId)
-                    .Select(om => om.Menu)
-                    .ToList();
+                var orderMenus = (from om in _context.OrderMenus
+                                  where om.OrderId == orderId
+                                  select om)
+                                 .ToList();
 
-                if (menus == null || !menus.Any())
+                if (orderMenus == null || !orderMenus.Any())
                 {
-                    throw new Exception("No menus found for the specified order.");
+                    throw new Exception("No order menus found for the specified order.");
                 }
 
-                return menus;
+                return orderMenus;
             }
             catch (Exception ex)
             {
