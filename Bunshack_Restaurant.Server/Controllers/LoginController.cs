@@ -76,10 +76,9 @@ namespace Bunshack_Restaurant.Server.Controllers
 
                     user_.LastLogin = DateTime.Now;
                     var updateResult = await _userManager.UpdateAsync(user_);
-
                     var isAdmin = user_.IsAdmin;
 
-                    return Ok(new {message = "Login Successful.", result, isAdmin});
+                    return Ok(new { message = "Login Successful.", user = new { user_.Email, user_.Name }, isAdmin });
                 }
                 else
                 {
@@ -118,7 +117,7 @@ namespace Bunshack_Restaurant.Server.Controllers
                 {
                     var currentUser = await _signInManager.UserManager.GetUserAsync(principals);
                     var isAdmin = currentUser.IsAdmin;
-                    return Ok(new { message = "Logged in", user = new { currentUser.Email, currentUser.UserName, isAdmin } }); 
+                    return Ok(new { message = "Logged in", user = new { currentUser.Email, currentUser.UserName }, isAdmin }); 
                 }
                 else
                 {
