@@ -14,6 +14,7 @@ import {
     Paper,
     Typography,
     Box,
+    Alert,
 } from '@mui/material';
 import { Menu } from '../types/Menu';
 import { Link } from 'react-router-dom';
@@ -77,12 +78,8 @@ const AdminPage: React.FC = () => {
         }
     };
 
-    if (!loggedIn) {
-        return (<Typography variant="h4" align="center" color="error"><div>Please log in to access this page.</div></Typography>);
-    }
-
     if (!isAdmin) {
-        return (<Typography variant="h4" align="center" color="error"><div>You do not have permission to view this page.</div></Typography>);
+        return (<Alert variant="filled" severity="error">You do not have permission to view this page.</Alert>);
     }
 
     if (loading) {

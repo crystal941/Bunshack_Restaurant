@@ -8,6 +8,7 @@ import {
     Typography,
     Box,
     Grid,
+    Alert,
 } from '@mui/material';
 import { useAuth } from '../contexts/AuthContext';
 import Layout from '../components/Layout';
@@ -82,7 +83,7 @@ const EditMenu: React.FC = () => {
     };
 
     if (!isAdmin) {
-        return (<Typography variant="h4" align="center" color="error"><div>You do not have permission to view this page.</div></Typography>);
+        return (<Alert variant="filled" severity="error">You do not have permission to view this page.</Alert>);
     }
 
     if (loading) {

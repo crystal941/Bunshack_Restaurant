@@ -6,6 +6,7 @@ import {
     Grid,
     TextField,
     Typography,
+    Alert,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
@@ -46,7 +47,7 @@ const AddMenuPage: React.FC = () => {
     };
 
     if (!isAdmin) {
-        return (<Typography variant="h4" align="center" color="error"><div>You do not have permission to view this page.</div></Typography>);
+        return (<Alert variant="filled" severity="error">You do not have permission to view this page.</Alert>);
     }
 
     return (
