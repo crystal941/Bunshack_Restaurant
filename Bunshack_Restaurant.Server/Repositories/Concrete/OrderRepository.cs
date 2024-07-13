@@ -101,7 +101,8 @@ namespace Bunshack_Restaurant.Server.Repositories.Concrete
             try
             {
                 var orders = _context.Orders
-                                     .Where(o => o.UserId == userId)                              
+                                     .Where(o => o.UserId == userId)
+                                     .OrderByDescending(o => o.OrderDate)
                                      .ToList();
                 return orders;
             }
