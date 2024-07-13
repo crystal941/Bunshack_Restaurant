@@ -27,6 +27,7 @@ const AdminPage: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [menus, setMenus] = useState<Menu[]>([]);
+    const [deleteMessage, setDeleteMessage] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchMenus = async () => {
@@ -68,6 +69,7 @@ const AdminPage: React.FC = () => {
                 if (response.ok) {
                     // Remove the deleted menu from state
                     setMenus(prevMenus => prevMenus.filter(menu => menu.id !== id));
+                    setDeleteMessage(`Menu with ID ${id} deleted successfully.`);
                 } else {
                     const data = await response.json();
                     setError(data.message || "Failed to delete menu.");
@@ -77,6 +79,12 @@ const AdminPage: React.FC = () => {
             }
         }
     };
+
+    useEffect(() => {
+        if (deleteMessage) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, [deleteMessage]);
 
     if (!isAdmin) {
         return (<Alert variant="filled" severity="error">You do not have permission to view this page.</Alert>);
@@ -90,17 +98,16 @@ const AdminPage: React.FC = () => {
         );
     }
 
-    if (error) {
-        return (<Typography variant="body1" align="center" color="error">
-            {error}
-        </Typography>);
-    }
-
     return (
         <Layout>
             <div className="content">
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <Typography variant="h4" style={{ color: 'black' }}>All Menus</Typography>
+                    {deleteMessage && (
+                        <Alert variant="filled" severity="warning" sx={{ marginBottom:"20px" }}>
+                                {deleteMessage}
+                            </Alert>
+                    )}
                     <TableContainer component={Paper} sx={{ maxWidth: "600px" }}>
                         <Table>
                             <TableHead>
@@ -168,8 +175,16 @@ const AdminPage: React.FC = () => {
                             </TableBody>
                         </Table>
                     </TableContainer>
-                    <Button variant="contained" color="success" sx={{ mt: 3 }} component={Link}
-                        to={"/addMenu"} >Add Menu</Button>
+                    <Button variant="contained" color="success" sx={{ mt: 3 }} component={Link} to={"/addMenu"}>
+                        Add Menu
+                    </Button>
+                    {error && (
+                        <div style={{ marginTop: '20px' }}>
+                            <Alert variant="filled" severity="error">
+                                {error}
+                            </Alert>
+                        </div>
+                    )}
                 </Box>
             </div>
         </Layout>
