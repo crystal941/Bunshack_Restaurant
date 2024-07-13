@@ -28,20 +28,14 @@ const OrdersPage: React.FC = () => {
 
                 if (response.ok) {
                     const data: OrderResponse[] = await response.json();
-                    const orders: Order[] = data.map((order, index) => ({
+                    const orders: Order[] = data.map((order) => ({
                         id: order.id,
                         customerName: order.customerName,
                         orderDate: new Date(order.orderDate),
                         userId: order.userId,
                         user: order.user,
-                        orderMenus: order.orderMenus.map(orderMenu => ({
-                            orderId: orderMenu.orderId,
-                            order: orderMenu.order,
-                            menuId: orderMenu.menuId,
-                            menu: orderMenu.menu,
-                            quantity: orderMenu.quantity
-                        })),
-                        orderNumber: index + 1 // Calculate alias order number (index + 1)
+                        orderMenus: [],
+                        totalPrice: order.totalPrice,
                     }));
                     setOrders(orders);
                 } else {
@@ -61,14 +55,6 @@ const OrdersPage: React.FC = () => {
             setLoading(false);
         }
     }, [loggedIn, isAdmin]);
-
-    if (!loggedIn) {
-        return (
-            <Typography variant="body1" align="center" color="error">
-                Please log in to access this page.
-            </Typography>
-        );
-    }
 
     if (loading) {
         return (
@@ -96,7 +82,7 @@ const OrdersPage: React.FC = () => {
                         <Box
                             sx={{
                                 mb: { xs: 3, sm: 5 },
-                                width: "600px",
+                                maxWidth: "800px",
                                 "@media (max-width:600px)": {
                                     width: "300px",
                                 },
