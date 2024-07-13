@@ -36,7 +36,7 @@ namespace Bunshack_Restaurant.Server.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Menus");
+                    b.ToTable("Menus", (string)null);
                 });
 
             modelBuilder.Entity("Bunshack_Restaurant.Server.Models.Order", b =>
@@ -61,7 +61,7 @@ namespace Bunshack_Restaurant.Server.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("Bunshack_Restaurant.Server.Models.OrderMenu", b =>
@@ -77,7 +77,7 @@ namespace Bunshack_Restaurant.Server.Data.Migrations
 
                     b.HasKey("OrderId", "MenuId");
 
-                    b.ToTable("OrderMenus");
+                    b.ToTable("OrderMenus", (string)null);
                 });
 
             modelBuilder.Entity("Bunshack_Restaurant.Server.Models.User", b =>
