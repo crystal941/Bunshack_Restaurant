@@ -29,6 +29,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                 });
                 if (response.ok) {
                     const data = await response.json();
+                    //console.log("User data from server:", data); 
                     setUser(data.user);
                     setLoggedIn(true);
                     setIsAdmin(data.isAdmin || data.user.isAdmin);
@@ -37,7 +38,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
                     localStorage.removeItem("user");
                 }
             } catch (error) {
-                console.error("Error checking user status: ", error);
+                //console.error("Error checking user status: ", error);
                 setLoggedIn(false);
                 localStorage.removeItem("user");
             } finally {
@@ -62,6 +63,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
             const data = await response.json();
 
             if (response.ok) {
+                //console.log("User data from server:", data); 
                 localStorage.setItem("user", email);
                 setUser(data.user);
                 setLoggedIn(true);
