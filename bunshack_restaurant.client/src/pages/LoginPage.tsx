@@ -26,7 +26,7 @@ const LoginPage: React.FC = () => {
         e.preventDefault();
         try {
             await login(email, password, remember);
-            navigate('/welcome')
+            navigate("/");
         } catch (error) {
             setErrorMessage((error as Error).message);
         }
