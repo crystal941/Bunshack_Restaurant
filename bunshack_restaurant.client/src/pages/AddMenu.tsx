@@ -87,7 +87,7 @@ const AddMenuPage: React.FC = () => {
                                         fullWidth
                                         id="price"
                                         label="Price"
-                                        type="number"
+                                        type="float"
                                         value={price}
                                         onChange={(e) => setPrice(e.target.value)}
                                         required
