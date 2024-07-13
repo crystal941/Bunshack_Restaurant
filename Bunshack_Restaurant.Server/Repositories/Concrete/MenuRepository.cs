@@ -1,9 +1,6 @@
-﻿using Bunshack_Restaurant.Server.Models;
+﻿using Bunshack_Restaurant.Server.Data.Context;
+using Bunshack_Restaurant.Server.Models;
 using Bunshack_Restaurant.Server.Repositories.Abstract;
-using Bunshack_Restaurant.Server.Data.Context;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.OpenApi;
-using Microsoft.EntityFrameworkCore;
 
 namespace Bunshack_Restaurant.Server.Repositories.Concrete
 {
