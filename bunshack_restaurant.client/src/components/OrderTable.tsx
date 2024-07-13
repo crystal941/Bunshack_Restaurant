@@ -18,32 +18,18 @@ import { useAuth } from '../contexts/AuthContext';
 
 interface OrderTableProps {
     orders: Order[];
+    handleDelete: (id: string) => void;
 }
 
-const OrderTable: React.FC<OrderTableProps> = ({ orders }) => {
+const OrderTable: React.FC<OrderTableProps> = ({ orders, handleDelete }) => {
     const { isAdmin } = useAuth();
-
-    const handleDelete = async (id: string) => {
-        if (window.confirm("Are you sure you want to delete this order?")) {
-            //try {
-            //    const response = await fetch(`/api/MenusController/${id}`, {
-            //        method: "DELETE",
-            //        credentials: "include"
-            //    });
-
-              
-            //} catch (err) {
-            //    setError("Something went wrong. Please try again.");
-            //}
-        }
-    };
 
     return (
         <TableContainer component={Paper}>
             <Table>
                 <TableHead>
                     <TableRow>
-                        <TableCell sx={{ fontWeight: "bold" }}>ID</TableCell>
+                        <TableCell sx={{ fontWeight: "bold" }}>Index</TableCell>
                         {isAdmin && (<TableCell sx={{ fontWeight: "bold" }}>Customer Name</TableCell>)}
                         <TableCell sx={{ fontWeight: "bold" }}>Date</TableCell>
                         <TableCell sx={{ fontWeight: "bold", textAlign: "right" }}>Total (NZ$)</TableCell>
