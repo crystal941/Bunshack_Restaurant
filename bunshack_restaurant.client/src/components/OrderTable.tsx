@@ -89,7 +89,7 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders, handleDelete }) => {
                                     {/* Conditionally render Button on desktop */}
                                     <Button
                                         variant="contained"
-                                        color="error"
+                                        color="secondary"
                                         onClick={() => handleDelete(order.id)}
                                         style={{ marginLeft: '10px' }}
                                         sx={{ display: { xs: 'none', sm: 'inline-flex' } }}

@@ -63,7 +63,6 @@ namespace Bunshack_Restaurant.Server.Repositories.Concrete
                 orderToUpdate.OrderDate = order.OrderDate;
                 orderToUpdate.UserId = order.UserId;
                 orderToUpdate.OrderMenus = order.OrderMenus;
-                orderToUpdate.TotalPrice = order.TotalPrice;
 
                 _context.SaveChanges();
 

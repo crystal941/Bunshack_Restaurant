@@ -161,7 +161,7 @@ const AdminPage: React.FC = () => {
                                                 {/* Conditionally render Button on desktop */}
                                                 <Button
                                                     variant="contained"
-                                                    color="error"
+                                                    color="secondary"
                                                     onClick={() => handleDelete(menu.id)}
                                                     style={{ marginLeft: '10px' }}
                                                     sx={{ display: { xs: 'none', sm: 'inline-flex' } }}
