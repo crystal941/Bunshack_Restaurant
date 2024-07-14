@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import {
+    Alert,
     Box,
+    Button,
     Container,
     Typography,
     CircularProgress,
@@ -10,12 +12,34 @@ import { Order } from "../types/Order";
 import { OrderResponse } from '../types/OrderResponse';
 import Layout from '../components/Layout';
 import OrderTable from '../components/OrderTable';
+import { Link } from 'react-router-dom';
 
 const OrdersPage: React.FC = () => {
     const { loggedIn, isAdmin } = useAuth();
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [errorMessage, setErrorMessage] = useState("");
+
+    const handleDelete = async (id: string) => {
+        if (window.confirm("Are you sure you want to delete this order?")) {
+            try {
+                const response = await fetch(`/api/OrdersController/${id}`, {
+                    method: "DELETE",
+                    credentials: "include"
+                });
+
+                if (response.ok) {
+                    // Remove the deleted order from state
+                    setOrders(prevOrders => prevOrders.filter(order => order.id !== id));
+                    setErrorMessage(`Order with ID ${id} deleted successfully.`);
+                } else {
+                    throw new Error("Failed to delete order.");
+                }
+            } catch (error) {
+                setErrorMessage(`Error deleting order: ${error}`);
+            }
+        }
+    };
 
     useEffect(() => {
         const fetchOrders = async () => {
@@ -56,6 +80,12 @@ const OrdersPage: React.FC = () => {
         }
     }, [loggedIn, isAdmin]);
 
+    useEffect(() => {
+        if (errorMessage) {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }, [errorMessage]);
+
     if (loading) {
         return (
             <Container>
@@ -66,10 +96,9 @@ const OrdersPage: React.FC = () => {
 
     return (
         <Layout>
-            <div className="content-wrapper">
                 <div className="content">
                     <Box>
-                        <Typography variant="h4">{isAdmin ? "All Orders" : "My Orders"}</Typography>
+                        <Typography variant="h4" style={{ color: "black" }}>{isAdmin ? "All Orders" : "My Orders"}</Typography>
                     </Box>
                     <Box
                         sx={{
@@ -88,16 +117,20 @@ const OrdersPage: React.FC = () => {
                                 },
                             }}
                         >
-                                <OrderTable orders={orders} />
+                            {errorMessage && (
+                                <div style={{ marginBottom: '20px' }}>
+                                <Alert variant="filled" severity="error" >
+                                    {errorMessage}
+                                    </Alert>
+                                </div>
+                            )}
+                            <OrderTable orders={orders} handleDelete={handleDelete} />
+                            <Button variant="contained" color="success" sx={{ mt: 3 }} component={Link} to={"/neworder"}>
+                                Place Order
+                            </Button>
                         </Box>
                     </Box>
                 </div>
-            </div>
-            {errorMessage && (
-                <Typography variant="h4" align="center" color="error">
-                    {errorMessage}
-                </Typography>
-            )}
         </Layout>
     );
 };
