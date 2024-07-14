@@ -8,6 +8,7 @@ import {
     TableRow,
     Paper,
     CircularProgress,
+    Alert,
 } from '@mui/material';
 import { OrderMenu } from '../types/Order';
 import { Menu } from '../types/Menu';
@@ -21,12 +22,13 @@ const MenuTable: React.FC<OrderMenuTableProps> = ({ orderId }) => {
     const [orderMenus, setOrderMenus] = useState<OrderMenu[]>([]);
     const [menus, setMenus] = useState<Menu[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string | null>(null);
     const { user } = useAuth();
 
     useEffect(() => {
         const fetchOrderMenus = async () => {
             if (!orderId) {
-                console.error("Order ID is undefined");
+                setError("Order ID is undefined");
                 return;
             }
             try {
@@ -35,7 +37,7 @@ const MenuTable: React.FC<OrderMenuTableProps> = ({ orderId }) => {
                     credentials: "include"
                 });
                 if (!response.ok) {
-                    throw new Error(`Failed to fetch menus for order ID ${orderId}`);
+                    setError(`Failed to fetch menus for order ID ${orderId}`);
                 }
                 const orderMenus = await response.json();
                 setOrderMenus(orderMenus);
@@ -44,7 +46,7 @@ const MenuTable: React.FC<OrderMenuTableProps> = ({ orderId }) => {
                 const menuDetails = await fetchMenuDetails(orderMenus);
                 setMenus(menuDetails);
             } catch (error) {
-                console.error("Error fetching menus:", error);
+                setError(`Error fetching menus: ${error}`);
             } finally {
                 setLoading(false);
             }
@@ -64,10 +66,11 @@ const MenuTable: React.FC<OrderMenuTableProps> = ({ orderId }) => {
                     const menuData = await response.json();
                     return menuData;
                 } else {
-                    throw new Error(`Failed to fetch menu details for menu ID ${orderMenu.menuId}`);
+                    setError(`Failed to fetch menu details for menu ID ${orderMenu.menuId}`);
+                    return orderMenu.quantity;
                 }
             } catch (error) {
-                console.error(`Error fetching menu details for menu ID ${orderMenu.menuId}:`, error);
+                setError(`Error fetching menu details for menu ID ${orderMenu.menuId}: ${error}`);
             }
         });
         // Wait for all menu detail requests to complete
@@ -109,7 +112,6 @@ const MenuTable: React.FC<OrderMenuTableProps> = ({ orderId }) => {
                             const menu = menus[index];
                             if (!menu) return null;
                             const totalPrice = calculateTotalPrice(menu, orderMenu.quantity);
-
                             return (
                                 <TableRow key={index}>
                                     <TableCell>{index + 1}</TableCell>
@@ -120,6 +122,14 @@ const MenuTable: React.FC<OrderMenuTableProps> = ({ orderId }) => {
                             );
                         })
                     )}
+                    {error && (
+                        <TableRow>
+                            <TableCell colSpan={4}>
+                                <Alert variant="filled" severity="warning">
+                                    {error}
+                                </Alert>
+                            </TableCell>
+                        </TableRow>)}
                 </TableBody>
             </Table>
         </TableContainer>
