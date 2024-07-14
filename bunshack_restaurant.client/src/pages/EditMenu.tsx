@@ -145,7 +145,7 @@ const EditMenu: React.FC = () => {
                                     />
                                 </Grid>
                             </Grid>
-                            <Button variant="contained" color="success" type="submit" sx={{ mt: "20px" }} fullWidth>
+                            <Button variant="contained" color="secondary" type="submit" sx={{ mt: "20px" }} fullWidth>
                                 Update Menu
                             </Button>
                             <Button variant="contained" color="primary" sx={{ mt: "20px" }} fullWidth component={Link}
