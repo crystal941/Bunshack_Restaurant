@@ -104,9 +104,9 @@ const AdminPage: React.FC = () => {
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <Typography variant="h4" style={{ color: 'black' }}>All Menus</Typography>
                     {deleteMessage && (
-                        <Alert variant="filled" severity="warning" sx={{ marginBottom:"20px" }}>
-                                {deleteMessage}
-                            </Alert>
+                        <Alert variant="filled" severity="warning" sx={{ marginBottom: "20px" }}>
+                            {deleteMessage}
+                        </Alert>
                     )}
                     <TableContainer component={Paper} sx={{ maxWidth: "600px" }}>
                         <Table>
@@ -161,7 +161,7 @@ const AdminPage: React.FC = () => {
                                                 {/* Conditionally render Button on desktop */}
                                                 <Button
                                                     variant="contained"
-                                                    color="secondary"
+                                                    color="error"
                                                     onClick={() => handleDelete(menu.id)}
                                                     style={{ marginLeft: '10px' }}
                                                     sx={{ display: { xs: 'none', sm: 'inline-flex' } }}
