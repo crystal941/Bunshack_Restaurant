@@ -7,6 +7,7 @@ import {
     TextField,
     Typography,
     styled,
+    useTheme,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
@@ -14,6 +15,7 @@ import { RegisterData } from "../types/RegisterData"
 
 const RegisterPage: React.FC = () => {
     const navigate = useNavigate();
+    const theme = useTheme();
 
     useEffect(() => {
         const user = localStorage.getItem("user");
@@ -95,7 +97,6 @@ const RegisterPage: React.FC = () => {
                             padding: "20px",
                             border: "1px solid #ccc",
                             borderRadius: "5px",
-                            backgroundColor: "#fff",
                             "@media(max-width: 600px)": { "& h4 ": { fontSize: "1.5rem" } },
                         }}
                     >
@@ -154,7 +155,7 @@ const RegisterPage: React.FC = () => {
                             sx={{ mt: "20px" }}
                         ></Typography>
                         <Typography variant="body1" align="center" sx={{ mt: "20px" }}>
-                            Or <StyledLink to="/login">Login</StyledLink>
+                            Or <StyledLink to="/login" themeMode={theme.palette.mode}>Login</StyledLink>
                         </Typography>
                     </Box>
                 </Container>
@@ -164,10 +165,10 @@ const RegisterPage: React.FC = () => {
     );
 };
 
-const StyledLink = styled(Link)({
-    textDecoration: "none",
+const StyledLink = styled(Link)(({ themeMode }: { themeMode: 'light' | 'dark' }) => ({
+    color: themeMode === 'dark' ? 'yellow' : 'darkviolet',
     fontWeight: "bold",
     "&:hover": { color: "red" },
-});
+}));
 
 export default RegisterPage;

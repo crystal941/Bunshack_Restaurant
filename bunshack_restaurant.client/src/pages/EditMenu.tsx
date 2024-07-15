@@ -104,8 +104,7 @@ const EditMenu: React.FC = () => {
         <Layout>
             <div className="content">
                 <Container sx={{ mb: 15, "@media(max-width: 600px)": { mb: 10 } }}>
-
-                    <Typography variant="h4" style={{ color: 'black' }} >
+                    <Typography variant="h4">
                         Edit Menu
                     </Typography>
                     <Box
@@ -115,7 +114,6 @@ const EditMenu: React.FC = () => {
                             padding: "20px",
                             border: "1px solid #ccc",
                             borderRadius: "5px",
-                            backgroundColor: "#fff",
                             "@media(max-width: 600px)": { "& h4 ": { fontSize: "1.5rem" } },
                         }}
                     >

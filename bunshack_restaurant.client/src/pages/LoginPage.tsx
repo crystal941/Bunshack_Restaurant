@@ -9,6 +9,7 @@ import {
     TextField,
     Typography,
     styled,
+    useTheme,
 } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
@@ -21,6 +22,7 @@ const LoginPage: React.FC = () => {
     const [password, setPassword] = useState("");
     const [remember, setRemember] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+    const theme = useTheme();
 
     const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -34,98 +36,93 @@ const LoginPage: React.FC = () => {
 
     return (
         <Layout>
-            <div className="content-wrapper">
-                <Container sx={{ mb: 25, "@media(max-width: 600px)": { mb: 18 } }}>
-                    <div className="content">
-                        <Typography variant="h4">Please login to order!</Typography>
-                    </div>
-
-                    <Box
-                        sx={{
-                            maxWidth: "400px",
-                            margin: "auto",
-                            padding: "20px",
-                            border: "1px solid #ccc",
-                            borderRadius: "5px",
-                            backgroundColor: "#fff",
-                            "@media(max-width: 600px)": { "& h4 ": { fontSize: "1.5rem" } },
-                        }}
-                    >
-                        <Typography variant="h4" align="center" gutterBottom>
-                            Login
-                        </Typography>
-                        <form className="login" onSubmit={loginHandler}>
-                            <Grid container spacing={2}>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        variant="outlined"
-                                        fullWidth
-                                        id="email"
-                                        label="Email"
-                                        name="Email"
-                                        type="email"
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <TextField
-                                        variant="outlined"
-                                        fullWidth
-                                        id="password"
-                                        label="Password"
-                                        name="Password"
-                                        type="password"
-                                        value={password}
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        required
-                                    />
-                                </Grid>
-                                <Grid item xs={12}>
-                                    <FormControlLabel
-                                        control={
-                                            <Checkbox
-                                                checked={remember}
-                                                onChange={(e) => setRemember(e.target.checked)}
-                                            />
-                                        }
-                                        label="Remember Password?"
-                                    />
-                                </Grid>
+            <Container sx={{ mb: 25, "@media(max-width: 600px)": { mb: 18 } }}>
+                <div className="content">
+                    <Typography variant="h4">Please login to order!</Typography>
+                </div>
+                <Box
+                    sx={{
+                        maxWidth: "400px",
+                        margin: "auto",
+                        padding: "20px",
+                        border: "1px solid #ccc",
+                        borderRadius: "5px",
+                        "@media(max-width: 600px)": { "& h4 ": { fontSize: "1.5rem" } },
+                    }}
+                >
+                    <Typography variant="h4" align="center" gutterBottom>
+                        Login
+                    </Typography>
+                    <form className="login" onSubmit={loginHandler}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    fullWidth
+                                    id="email"
+                                    label="Email"
+                                    name="Email"
+                                    type="email"
+                                    value={email}
+                                    onChange={(e) => setEmail(e.target.value)}
+                                    required
+                                />
                             </Grid>
-                            <Button
-                                sx={{ mt: "20px" }}
-                                type="submit"
-                                variant="contained"
-                                color="primary"
-                                fullWidth
-                            >
-                                Login
-                            </Button>
-                        </form>
-                        {errorMessage && (
-                            <Typography variant="body1" align="center" color="error">
-                                {errorMessage}
-                            </Typography>
-                        )}
-                        <div style={{ textAlign: "center", marginTop: "10px" }}>
-                            <Typography variant="body1">
-                                Or <StyledLink to="/register">Register</StyledLink>
-                            </Typography>
-                        </div>
-                    </Box>
-                </Container>
-                <br />
-            </div>
+                            <Grid item xs={12}>
+                                <TextField
+                                    variant="outlined"
+                                    fullWidth
+                                    id="password"
+                                    label="Password"
+                                    name="Password"
+                                    type="password"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox
+                                            checked={remember}
+                                            onChange={(e) => setRemember(e.target.checked)}
+                                        />
+                                    }
+                                    label="Remember Password?"
+                                />
+                            </Grid>
+                        </Grid>
+                        <Button
+                            sx={{ mt: "20px" }}
+                            type="submit"
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                        >
+                            Login
+                        </Button>
+                    </form>
+                    {errorMessage && (
+                        <Typography variant="body1" align="center" color="error">
+                            {errorMessage}
+                        </Typography>
+                    )}
+                    <div style={{ textAlign: "center", marginTop: "10px" }}>
+                        <Typography variant="body1">
+                            Or <StyledLink to="/register" themeMode={theme.palette.mode}>Register</StyledLink>
+                        </Typography>
+                    </div>
+                </Box>
+            </Container>
         </Layout>
     );
 };
 
-const StyledLink = styled(Link)({
-    textDecoration: "none",
+const StyledLink = styled(Link)(({ themeMode }: { themeMode: 'light' | 'dark' }) => ({
+    color: themeMode === 'dark' ? 'yellow' : 'darkviolet',
     fontWeight: "bold",
     "&:hover": { color: "red" },
-});
+}));
 
 export default LoginPage;

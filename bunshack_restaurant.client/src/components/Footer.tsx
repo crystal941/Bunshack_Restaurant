@@ -30,7 +30,7 @@ const Footer: React.FC = () => {
   return (
     <>
       <Box
-        sx={{ textAlign: "center", bgcolor: "#1A1A19", color: "white", p: 3 }}
+        sx={{ textAlign: "center", p: 3 }}
       >
         <Box
           sx={{

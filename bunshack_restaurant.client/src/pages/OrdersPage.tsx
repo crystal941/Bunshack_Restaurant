@@ -96,41 +96,41 @@ const OrdersPage: React.FC = () => {
 
     return (
         <Layout>
-                <div className="content">
-                    <Box>
-                        <Typography variant="h4" style={{ color: "black" }}>{isAdmin ? "All Orders" : "My Orders"}</Typography>
-                    </Box>
+            <div className="content">
+                <Box>
+                    <Typography variant="h4">{isAdmin ? "All Orders" : "My Orders"}</Typography>
+                </Box>
+                <Box
+                    sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        flexDirection: "column",
+                    }}
+                >
                     <Box
                         sx={{
-                            display: "flex",
-                            justifyContent: "center",
-                            alignItems: "center",
-                            flexDirection: "column",
+                            mb: { xs: 3, sm: 5 },
+                            maxWidth: "800px",
+                            "@media (max-width:600px)": {
+                                width: "300px",
+                            },
                         }}
                     >
-                        <Box
-                            sx={{
-                                mb: { xs: 3, sm: 5 },
-                                maxWidth: "800px",
-                                "@media (max-width:600px)": {
-                                    width: "300px",
-                                },
-                            }}
-                        >
-                            {errorMessage && (
-                                <div style={{ marginBottom: '20px' }}>
+                        {errorMessage && (
+                            <div style={{ marginBottom: '20px' }}>
                                 <Alert variant="filled" severity="error" >
                                     {errorMessage}
-                                    </Alert>
-                                </div>
-                            )}
-                            <OrderTable orders={orders} handleDelete={handleDelete} />
-                            <Button variant="contained" color="success" sx={{ mt: 3 }} component={Link} to={"/neworder"}>
-                                Place Order
-                            </Button>
-                        </Box>
+                                </Alert>
+                            </div>
+                        )}
+                        <OrderTable orders={orders} handleDelete={handleDelete} />
+                        <Button variant="contained" color="success" sx={{ mt: 3 }} component={Link} to={"/neworder"}>
+                            Place Order
+                        </Button>
                     </Box>
-                </div>
+                </Box>
+            </div>
         </Layout>
     );
 };

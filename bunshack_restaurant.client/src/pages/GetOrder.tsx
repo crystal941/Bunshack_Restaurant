@@ -87,7 +87,7 @@ const GetOrder: React.FC = () => {
         <Layout>
             <div className="content">
                 <Box>
-                    <Typography variant="h4" style={{ color: "black" }}>Order Details</Typography>
+                    <Typography variant="h4">Order Details</Typography>
                 </Box>
                 {order && (
                     <Box

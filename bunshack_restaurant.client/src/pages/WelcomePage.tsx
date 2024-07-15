@@ -22,7 +22,7 @@ const WelcomePage: React.FC = () => {
         <Layout>
             <div className="content">
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography variant="h4" style={{ color: 'black' }}> Welcome Back! <br /> {user?.name}</Typography>
+                    <Typography variant="h4"> Welcome Back! <br /> {user?.name}</Typography>
                     <Box sx={{
                         display: 'flex',
                         '& > *': {

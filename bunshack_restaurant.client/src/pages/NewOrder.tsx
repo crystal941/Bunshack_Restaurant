@@ -129,7 +129,7 @@ const NewOrder: React.FC = () => {
         <Layout>
             <div className="content">
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography variant="h4" style={{ color: 'black' }}>Place New Order</Typography>
+                    <Typography variant="h4">Place New Order</Typography>
                     <form onSubmit={submitOrderHandler}>
                         <TableContainer component={Paper} sx={{ maxWidth: "600px" }}>
                             <Table>
@@ -168,8 +168,8 @@ const NewOrder: React.FC = () => {
                                                     ))}
                                                 </TextField>
                                             </TableRow>
-
-                                        )))}
+                                        ))
+                                    )}
                                     <TableRow>
                                         <TableCell colSpan={3} align="right" sx={{ fontWeight: "bold" }}>Total Price:</TableCell>
                                         <TableCell align="center" sx={{ fontWeight: "bold", paddingRight: "16px" }}>

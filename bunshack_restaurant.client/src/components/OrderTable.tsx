@@ -8,7 +8,9 @@ import {
     TableRow,
     Paper,
     IconButton,
-    Button
+    Button,
+    styled,
+    useTheme,
 } from '@mui/material';
 import { Order } from "../types/Order";
 import { Link } from 'react-router-dom';
@@ -23,6 +25,7 @@ interface OrderTableProps {
 
 const OrderTable: React.FC<OrderTableProps> = ({ orders, handleDelete }) => {
     const { isAdmin } = useAuth();
+    const theme = useTheme();
 
     return (
         <TableContainer component={Paper}>
@@ -56,8 +59,8 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders, handleDelete }) => {
                                 <TableCell>{order.orderDate.toLocaleDateString()}</TableCell>
                                 <TableCell align="right">{order.totalPrice}</TableCell>
                                 <TableCell>
-                                    <Link to={`/order/${order.id}`}>
-                                        View Details </Link>
+                                    <StyledLink to={`/order/${order.id}`} themeMode={theme.palette.mode}>
+                                        View Details </StyledLink>
                                 </TableCell>
                                 <TableCell align="center">
                                     {/* Conditionally render IconButton on mobile */}
@@ -105,5 +108,11 @@ const OrderTable: React.FC<OrderTableProps> = ({ orders, handleDelete }) => {
         </TableContainer>
     );
 };
+
+const StyledLink = styled(Link)(({ themeMode }: { themeMode: 'light' | 'dark' }) => ({
+    color: themeMode === 'dark' ? 'yellow' : 'darkviolet',
+    fontWeight: "bold",
+    "&:hover": { color: "red" },
+}));
 
 export default OrderTable;

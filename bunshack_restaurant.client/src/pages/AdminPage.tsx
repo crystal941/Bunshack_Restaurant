@@ -102,7 +102,7 @@ const AdminPage: React.FC = () => {
         <Layout>
             <div className="content">
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography variant="h4" style={{ color: 'black' }}>All Menus</Typography>
+                    <Typography variant="h4">All Menus</Typography>
                     {deleteMessage && (
                         <Alert variant="filled" severity="warning" sx={{ marginBottom: "20px" }}>
                             {deleteMessage}

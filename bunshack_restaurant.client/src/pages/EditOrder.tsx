@@ -156,7 +156,7 @@ const EditOrder: React.FC = () => {
         <Layout>
             <div className="content">
                 <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                    <Typography variant="h4" style={{ color: 'black' }}>Edit Order</Typography>
+                    <Typography variant="h4">Edit Order</Typography>
                     <form onSubmit={submitOrderHandler}>
                         <TableContainer component={Paper} sx={{ maxWidth: "600px" }}>
                             <Table>
