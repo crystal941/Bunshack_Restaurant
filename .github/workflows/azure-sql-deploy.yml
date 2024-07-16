@@ -1,0 +1,26 @@
+name: Azure SQL Deploy
+
+on:
+    push:
+        branches: [ main ]
+    pull_request:
+        branches: [ main ]
+
+jobs: 
+   build:
+     runs-on: windows-latest
+     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy to Azure SQL
+        uses: Azure/sql-action@v2.2.1
+        with:
+          connection-string: ${{ secrets.AZURE_SQL_CONNECTION_STRING }}
+          path: './dbBunshack-2024-7-16-16-49.bacpac'
+          action: 'Publish'
+      
+      - name: Notify
+        if: failure()
+        run: |
+          echo "Deployment failed!"
