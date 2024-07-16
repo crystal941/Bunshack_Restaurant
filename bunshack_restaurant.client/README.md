@@ -73,7 +73,7 @@ Here is the example code snippet in NewOrder.tsx:
 
 The project is organized as follows:
 ```
-Bunshack_Restaurant/
+bunshack_restaurant.client/ # Root directory of the frontend
 ├── public/
 ├── src/
 │ ├── assets/               # Folder for assests
