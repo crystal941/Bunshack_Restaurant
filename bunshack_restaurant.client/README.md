@@ -17,7 +17,7 @@
    - React Router is used for handling navigation within the application, enabling seamless transitions between different pages and components.
 
 5. **Git Usage**
-   - The project follows standard Git workflows for version control and collaboration. Make sure to commit changes with descriptive messages and create branches for new features or fixes.
+   - The project uses Git workflows for version control, making sure to commit changes with descriptive messages for new features or fixes.
 
 ## Advanced Features
 
