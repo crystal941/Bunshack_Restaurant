@@ -14,7 +14,9 @@ You can watch a Demo video here: [Demo Video]
 
 ## Highlights
 
-One aspect I am particularly proud of is that I completed this project 100% through **self-learning**. Despite not having covered similar courses during my university studies yet, I managed to overcome the steep learning curve and build a functional full-stack application. Integrating the **ASP.NET Core Identity framework** for authentication as well as using **SECRET** and **workflows** to delopy was also a self-taught endeavor. Although there is always room for improvement, this project marks a significant milestone in my learning journey.
+One aspect I am particularly proud of is that I completed this project 100% through **self-learning**. Despite not having covered similar courses during my university studies yet, I managed to overcome the steep learning curve and build a functional full-stack application. 
+
+Integrating the **ASP.NET Core Identity framework** for authentication as well as using **SECRET** and **workflows** to delopy was also a self-taught endeavor. Although there is always room for improvement, this project marks a significant milestone in my learning journey.
 
 ## Summary of Features
 
@@ -50,4 +52,6 @@ Detailed explanations of the backend features can be found in the [Bunshack_Rest
 
 ---
 
-Thank you for checking out my project! Feel free to explore the detailed README files linked above for more comprehensive explanations of the features and implementation details of the Bunshack_Restaurant project. Let's keep calm and carry on coding! :blush: 
+Thank you for checking out my project! Feel free to explore the detailed README files linked above for more comprehensive explanations of the features and implementation details of the Bunshack_Restaurant project. 
+
+Let's keep calm and carry on coding! :blush: 
