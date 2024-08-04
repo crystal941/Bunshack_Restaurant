@@ -10,13 +10,75 @@ This project was inspired by a newly opened small restaurant owned by a friend o
 
 This repository contains the full implementation of the Bunshack_Restaurant project, showcasing various frontend and backend features. 
 
-You can watch a Demo video here: [Demo Video]
+You can watch a Demo video here: [Demo Video](https://www.youtube.com/watch?v=quDn6Wvvdrc), or You can view the deployed website on live: [Deployed Website](https://bunshack.azurewebsites.net/).
 
 ## Highlights
 
 One aspect I am particularly proud of is that I completed this project 100% through **self-learning**. Despite not having covered similar courses during my university studies yet, I managed to overcome the steep learning curve and build a functional full-stack application. 
 
 Integrating the **ASP.NET Core Identity framework** for authentication as well as using **SECRET** and **workflows** to delopy was also a self-taught endeavor. Although there is always room for improvement, this project marks a significant milestone in my learning journey.
+
+## Running this project locally
+
+### Prerequisites
+- .NET 8.0 SDK
+- Node.js and npm
+- SQL Server (local or remote)
+
+### Cloning the Repository
+- Clone the repository to your local machine:
+  ```
+  git clone https://github.com/crystal941/Bunshack_Restaurant.git
+  cd Bunshack_Restaurant
+  ```
+### Setting Up the Backend
+- Navigate to the backend project directory:
+  ```
+  cd Bunshack_Restaurant.Server
+  ```
+- Update the connection string in the appsettings.json file to your local database connection string:
+  ```
+    "ConnectionStrings": {
+    "DefaultConnection": "YOUR_LOCAL_DATABASE_CONNECTION_STRING"
+  }
+  ```
+- In the program.cs file, uncomment the first line and comment out the second and third lines in the code block below:
+  ```
+  builder.Services.AddDbContext<ApplicationDbContext>(options =>
+  {
+      options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+      // var connectionString = Environment.GetEnvironmentVariable("SQLAZURECONNSTR_dbBunshack");
+      // options.UseSqlServer(connectionString);
+  });
+  ```
+- Run the following command to apply migrations and update the database:
+  ```
+  dotnet ef migrations add InitialCreate
+  dotnet ef database update
+  ```
+- Start the backend server:
+  ```
+  dotnet run
+  ```
+
+### Setting Up the Frontend
+- Navigate to the frontend project directory:
+  ```
+  cd ../bunshack_restaurant.client
+  ```
+- Install the necessary packages and Material-UI dependencies:
+  ```
+  npm install
+  npm install @mui/material @emotion/react @emotion/styled
+  ```
+- Start the frontend development server:
+  ```
+  npm run dev
+  ```
+
+### Accessing the Application
+- Open your browser and navigate to the URL shown in your terminal. By default, it is usually http://localhost:3000, but it might be different if the default port is already in use.
+
 
 ## Summary of Features
 
